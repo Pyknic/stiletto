@@ -55,7 +55,7 @@ public final class InjectorBuilderImpl implements InjectorBuilder {
         // should only look at them. Otherwise, consider all constructors
         // candidates for injection.
         Stream<Constructor<?>> constructors = Stream.of(clazz.getDeclaredConstructors());
-        if (Stream.of(clazz.getConstructors()).anyMatch(INJECTABLE)) {
+        if (Stream.of(clazz.getDeclaredConstructors()).anyMatch(INJECTABLE)) {
             constructors = constructors.filter(INJECTABLE);
         }
 
