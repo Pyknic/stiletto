@@ -8,6 +8,8 @@ package com.github.pyknic.stiletto;
  */
 public final class InjectorException extends RuntimeException {
 
+    private static final long serialVersionUID = -5986130455120347787L;
+
     /**
      * Creates a new exception with a message.
      *
