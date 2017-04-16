@@ -8,7 +8,6 @@
  * will therefore only be modified as part of a new major version of the
  * library. Implementations are located in an internal package that might be
  * modified between major releases.
- * <p>
  * <h3>Configuration</h3>
  * The builder pattern allows the dependency injector to be built by appending
  * types available for dependency injection. An optional qualifier string can be
@@ -17,6 +16,7 @@
  * {@link com.github.pyknic.stiletto.InjectorBuilder#build()}-method is invoked,
  * then an {@link com.github.pyknic.stiletto.InjectorException} is thrown.
  *
+ * <pre>
  * {@code
  *     // Create a new dependency injector with a number of injectable
  *     // implementations.
@@ -27,6 +27,7 @@
  *         .withType(PostgreSQLComponentImpl.class, "postgreSQL")
  *         .build();
  * }
+ * </pre>
  *
  * <h3>Annotation Injection</h3>
  * Fields and/or constructors can be annotated to direct the dependency
@@ -34,12 +35,13 @@
  * which instance is loaded if there are multiple implementations of the same
  * interface.
  *
+ * <pre>
  * {@code
  *     class TopicComponentImpl implements TopicComponent {
  *
  *         private final CommentComponent comments;
  *
- *         @Inject("mysql")
+ *         {@literal @}Inject("mysql")
  *         private DatabaseComponent database;
  *
  *         // Don't use this constructor
@@ -48,18 +50,20 @@
  *         }
  *
  *         // Instead, use this constructor:
- *         @Inject
+ *         {@literal @}Inject
  *         TopicComponentImpl(CommentComponent comments) {
  *             this.comments = requireNonNull(comments);
  *         }
  *
  *     }
  * }
+ * </pre>
  *
  * <h3>Programmatic Injection</h3>
  * The {@link com.github.pyknic.stiletto.Injector} instance can also be invoked
  * programmatically to obtain instances from the graph.
  *
+ * <pre>
  * {@code
  *     // Get a type based on the interface (or the implementation)
  *     final CommentComponent comments =
@@ -73,7 +77,7 @@
  *     final boolean hasTopicComponent =
  *         injector.has(TopicComponent.class);
  * }
- *
+ * </pre>
  *
  */
 package com.github.pyknic.stiletto;

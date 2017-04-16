@@ -11,12 +11,16 @@ public interface InjectorBuilder {
 
     /**
      * Adds a type to the injector being built so that it and all its ancestors
-     * can be dependency injected.
+     * can be dependency injected. An optional qualifiers can be specified to
+     * keep multiple implementations of the same interface apart. If not
+     * specified, then the absolute class name is used.
      *
      * @see #withType(Class)
      *
-     * @param clazz  the class to be injectable
-     * @return       this builder
+     * @param <T>        the injectable (implementation) type
+     * @param clazz      the class to be injectable
+     * @param qualifier  qualifier for the implementation
+     * @return           this builder
      */
     <T> InjectorBuilder withType(Class<T> clazz, String qualifier);
 
@@ -30,6 +34,7 @@ public interface InjectorBuilder {
      *
      * @see #withType(Class, String)
      *
+     * @param <T>    the injectable (implementation) type
      * @param clazz  the class to be injectable
      * @return       this builder
      */
