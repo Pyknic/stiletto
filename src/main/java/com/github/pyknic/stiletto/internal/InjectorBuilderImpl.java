@@ -6,6 +6,7 @@ import com.github.pyknic.stiletto.InjectorBuilder;
 import com.github.pyknic.stiletto.InjectorException;
 import com.github.pyknic.stiletto.internal.graph.Node;
 import com.github.pyknic.stiletto.internal.graph.NodeImpl;
+import com.github.pyknic.stiletto.internal.util.StringUtil;
 import com.speedment.stream.MapStream;
 
 import java.lang.reflect.Constructor;
@@ -30,7 +31,6 @@ public final class InjectorBuilderImpl implements InjectorBuilder {
         return new InjectorBuilderImpl();
     }
 
-    private static final Predicate<String> NOT_EMPTY = s -> !s.isEmpty();
     private static final Predicate<Constructor<?>> INJECTABLE =
         c -> c.getAnnotation(Inject.class) != null;
 
@@ -46,11 +46,10 @@ public final class InjectorBuilderImpl implements InjectorBuilder {
         // Determine if there are any members that need to be injected.
         final Set<String> dependencies = unmodifiableSet(traverseFields(clazz)
             .map(f -> ofNullable(f.getAnnotation(Inject.class))
-                .map(Inject::value).filter(NOT_EMPTY)
+                .map(Inject::value).filter(StringUtil::notEmpty)
                 .orElseGet(() -> f.getType().getName())
             ).collect(toSet())
         );
-
 
         // If the specified type has at least one annotated constructor, we
         // should only look at them. Otherwise, consider all constructors
@@ -68,7 +67,7 @@ public final class InjectorBuilderImpl implements InjectorBuilder {
 
             Stream.of(constr.getParameters())
                 .map(p -> ofNullable(p.getAnnotation(Inject.class))
-                    .map(Inject::value).filter(NOT_EMPTY)
+                    .map(Inject::value).filter(StringUtil::notEmpty)
                     .orElseGet(() -> p.getType().getName())
                 ).forEach(deps::add);
 

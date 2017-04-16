@@ -2,6 +2,7 @@ package com.github.pyknic.stiletto.internal.graph;
 
 import com.github.pyknic.stiletto.Inject;
 import com.github.pyknic.stiletto.InjectorException;
+import com.github.pyknic.stiletto.internal.util.StringUtil;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -55,6 +56,7 @@ public final class NodeImpl<T> implements Node<T> {
             .map(p -> dependencies.get(
                 ofNullable(p.getAnnotation(Inject.class))
                     .map(Inject::value)
+                    .filter(StringUtil::notEmpty)
                     .orElseGet(() -> p.getType().getName())
             )).toArray();
 
@@ -65,7 +67,7 @@ public final class NodeImpl<T> implements Node<T> {
                 .forEach(f -> {
                     final String qualifier =
                         of(f.getAnnotation(Inject.class).value())
-                            .filter(s -> !s.isEmpty())
+                            .filter(StringUtil::notEmpty)
                             .orElseGet(() -> f.getType().getName());
 
                     try {
