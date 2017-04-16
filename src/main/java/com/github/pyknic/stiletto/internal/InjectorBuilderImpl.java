@@ -30,6 +30,7 @@ public final class InjectorBuilderImpl implements InjectorBuilder {
         return new InjectorBuilderImpl();
     }
 
+    private static final Predicate<String> NOT_EMPTY = s -> !s.isEmpty();
     private static final Predicate<Constructor<?>> INJECTABLE =
         c -> c.getAnnotation(Inject.class) != null;
 
@@ -45,7 +46,7 @@ public final class InjectorBuilderImpl implements InjectorBuilder {
         // Determine if there are any members that need to be injected.
         final Set<String> dependencies = unmodifiableSet(traverseFields(clazz)
             .map(f -> ofNullable(f.getAnnotation(Inject.class))
-                .map(Inject::value)
+                .map(Inject::value).filter(NOT_EMPTY)
                 .orElseGet(() -> f.getType().getName())
             ).collect(toSet())
         );
@@ -67,7 +68,7 @@ public final class InjectorBuilderImpl implements InjectorBuilder {
 
             Stream.of(constr.getParameters())
                 .map(p -> ofNullable(p.getAnnotation(Inject.class))
-                    .map(Inject::value)
+                    .map(Inject::value).filter(NOT_EMPTY)
                     .orElseGet(() -> p.getType().getName())
                 ).forEach(deps::add);
 
