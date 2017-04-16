@@ -1,7 +1,6 @@
 package com.github.pyknic.stiletto.internal.util;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 import java.util.stream.Stream;
 
 /**
@@ -23,11 +22,6 @@ public final class ReflectionUtil {
         }
 
         return Stream.concat(inherited, Stream.of(clazz.getDeclaredFields()));
-    }
-
-    public static Stream<Method> traverseMethods(Class<?> clazz) {
-        return traverseAncestors(clazz)
-            .flatMap(c -> Stream.of(c.getDeclaredMethods()));
     }
 
     public static Stream<Class<?>> traverseAncestors(Class<?> clazz) {
