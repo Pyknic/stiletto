@@ -164,7 +164,7 @@
                         </executions>
                         <configuration>
                             <docfilessubdirs>true</docfilessubdirs>
-                            <excludePackageNames>com.github.pyknic.stiletto.internal.*</excludePackageNames>
+                            <excludePackageNames>com.github.pyknic.stiletto.internal</excludePackageNames>
                         </configuration>
                     </plugin>
                     <plugin>
