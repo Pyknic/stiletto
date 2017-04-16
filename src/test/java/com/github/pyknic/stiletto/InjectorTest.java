@@ -21,6 +21,14 @@ class InjectorTest {
     private static final class CompBImpl implements CompA, CompB {
         private final CompA wrapped;
         private final CompA wrapped2;
+
+        // Should not be invoked.
+        CompBImpl() {
+            wrapped = null;
+            wrapped2 = null;
+        }
+
+        @Inject
         CompBImpl(@Inject("a") CompA wrapped, CompA second) {
             this.wrapped  = wrapped;
             this.wrapped2 = second;
