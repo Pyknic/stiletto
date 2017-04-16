@@ -11,6 +11,14 @@ import java.util.stream.Stream;
  */
 public final class ReflectionUtil {
 
+    /**
+     * Returns a stream of all the member fields for the specified class,
+     * including inherited fields from any ancestors. This includes public,
+     * private, protected and package private fields.
+     *
+     * @param clazz  the class to traverse
+     * @return       stream of fields
+     */
     public static Stream<Field> traverseFields(Class<?> clazz) {
         final Class<?> parent = clazz.getSuperclass();
         final Stream<Field> inherited;
@@ -24,6 +32,14 @@ public final class ReflectionUtil {
         return Stream.concat(inherited, Stream.of(clazz.getDeclaredFields()));
     }
 
+    /**
+     * Returns a stream of all the classes upwards in the inheritance tree of
+     * the specified class, including the class specified as the first element
+     * and {@code java.lang.Object} as the last one.
+     *
+     * @param clazz  the first class in the tree
+     * @return       stream of ancestors (including {@code clazz})
+     */
     public static Stream<Class<?>> traverseAncestors(Class<?> clazz) {
         if (clazz.getSuperclass() == null) { // We have reached Object.class
             return Stream.of(clazz);
@@ -38,5 +54,8 @@ public final class ReflectionUtil {
         }
     }
 
+    /**
+     * Should never be invoked.
+     */
     private ReflectionUtil() {}
 }
