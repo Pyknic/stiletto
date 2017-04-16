@@ -38,6 +38,6 @@ public @interface Inject {
      *
      * @return  the qualifier
      */
-    String value();
+    String value() default "";
 
 }
