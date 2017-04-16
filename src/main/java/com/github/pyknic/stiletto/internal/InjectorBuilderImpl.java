@@ -54,7 +54,7 @@ public final class InjectorBuilderImpl implements InjectorBuilder {
         // If the specified type has at least one annotated constructor, we
         // should only look at them. Otherwise, consider all constructors
         // candidates for injection.
-        Stream<Constructor<?>> constructors = Stream.of(clazz.getConstructors());
+        Stream<Constructor<?>> constructors = Stream.of(clazz.getDeclaredConstructors());
         if (Stream.of(clazz.getConstructors()).anyMatch(INJECTABLE)) {
             constructors = constructors.filter(INJECTABLE);
         }
@@ -105,12 +105,15 @@ public final class InjectorBuilderImpl implements InjectorBuilder {
                 resolved.add(i.getKey());
 
                 traverseAncestors(inst.getClass())
-                    .forEach(c -> byType.put(c, inst));
+                    .forEach(c -> {
+                        byType.put(c, inst);
+                        byQualifier.put(c.getName(), inst);
+                    });
             });
 
             if (resolved.size() == 0) {
                 throw new InjectorException(
-                    "Error! No way of resolving dependencies for the " +
+                    "Error! Can't resolve dependencies for the " +
                     "following qualifiers: " + injectables.keySet() +
                     ".\nThe following dependencies have not been resolved: [\n" +
                         injectables.values().stream()
