@@ -61,6 +61,7 @@ public final class InjectorBuilderImpl implements InjectorBuilder {
 
         // Determine if there are any members that need to be injected.
         final Set<String> dependencies = unmodifiableSet(traverseFields(clazz)
+            .filter(f -> f.getAnnotation(Inject.class) != null)
             .map(f -> ofNullable(f.getAnnotation(Inject.class))
                 .map(Inject::value).filter(StringUtil::notEmpty)
                 .orElseGet(() -> f.getType().getName())
