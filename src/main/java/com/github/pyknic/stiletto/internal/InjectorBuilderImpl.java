@@ -134,7 +134,7 @@ public final class InjectorBuilderImpl implements InjectorBuilder {
                     ".\nThe following dependencies have not been resolved: [\n" +
                         injectables.values().stream()
                             .flatMap(Set::stream)
-                            .map(i -> "  " + i.getQualifier() + " -> [" +
+                            .map(i -> "  " + i.getQualifier() + " -> [\n    " +
                                 i.getDependencies().stream()
                                  .filter(d -> !byQualifier.keySet().contains(d))
                                  .collect(joining(",\n    "))
