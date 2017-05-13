@@ -18,7 +18,7 @@ Add the following to your `pom.xml`-file:
 <dependency>
     <groupId>com.github.pyknic</groupId>
     <artifactId>stiletto</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
 </dependency>
 ```
 
