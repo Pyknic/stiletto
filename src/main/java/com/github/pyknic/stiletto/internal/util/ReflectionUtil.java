@@ -57,15 +57,24 @@ public final class ReflectionUtil {
      * @return       stream of ancestors (including {@code clazz})
      */
     public static Stream<Class<?>> traverseAncestors(Class<?> clazz) {
-        if (clazz.getSuperclass() == null) { // We have reached Object.class
-            return Stream.of(clazz);
+        final Class<?>[] interfaces = clazz.getInterfaces();
+        if (clazz.getSuperclass() == null) {
+            if (interfaces.length == 0) {
+                return Stream.of(clazz);
+            } else {
+                return Stream.concat(
+                    Stream.of(clazz),
+                    Stream.of(clazz.getInterfaces())
+                        .flatMap(ReflectionUtil::traverseAncestors)
+                ).distinct();
+            }
         } else {
             return Stream.concat(
                 Stream.of(clazz),
                 Stream.concat(
-                    traverseAncestors(clazz.getSuperclass()),
+                    Stream.of(clazz.getSuperclass()),
                     Stream.of(clazz.getInterfaces())
-                )
+                ).flatMap(ReflectionUtil::traverseAncestors)
             ).distinct();
         }
     }
