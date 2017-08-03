@@ -18,14 +18,14 @@ Add the following to your `pom.xml`-file:
 <dependency>
     <groupId>com.github.pyknic</groupId>
     <artifactId>stiletto</artifactId>
-    <version>1.0.1</version>
+    <version>1.0.3</version>
 </dependency>
 ```
 
 #### Using Gradle
 Add the following to your `build.gradle`-file:
 ```gradle
-compile group: 'com.github.pyknic', name: 'stiletto', version: '1.0.0'
+compile group: 'com.github.pyknic', name: 'stiletto', version: '1.0.3'
 ```
 
 ## Usage
