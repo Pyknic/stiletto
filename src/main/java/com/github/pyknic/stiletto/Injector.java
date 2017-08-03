@@ -19,6 +19,8 @@ package com.github.pyknic.stiletto;
 import com.github.pyknic.stiletto.internal.InjectorBuilderImpl;
 
 import java.util.Optional;
+import java.util.function.Supplier;
+import java.util.stream.Stream;
 
 import static com.github.pyknic.stiletto.InjectorException.unknownQualifierException;
 import static com.github.pyknic.stiletto.InjectorException.unknownTypeException;
@@ -114,4 +116,46 @@ public interface Injector {
      */
     <T> Optional<T> get(String qualifier);
 
+    /**
+     * Stream over all instances created during the building of the injector.
+     *
+     * @return  stream of dependency injected instances
+     */
+    Stream<Object> stream();
+
+    /**
+     * Sets any injectable fields in the specified instance using the instances
+     * stored in this injector. Final fields will not be touched.
+     *
+     * @param <T>       the type of the instance
+     * @param instance  the instance to apply dependency injection on
+     * @return          the dependency injected instance
+     */
+    <T> T inject(T instance);
+
+    /**
+     * Creates a new instance of the specified class using a constructor
+     * annotated with the {@link Inject}-annotation in first hand and any other
+     * constructor where all the parameters are injectable in second hand. The
+     * constructor does not need to be accessible.
+     * <p>
+     * This method will throw an exception if the specified class is abstract or
+     * refers to a interface or enum.
+     *
+     * @param <T>   the type of the class to create
+     * @param type  the type to instantiate and apply dependency injection on
+     * @return      the newly created dependency injected instance
+     */
+    <T> T create(Class<T> type);
+
+    /**
+     * Returns a supplier that can produce instances of the specified type,
+     * similar to calling {@code () -> injector.inject(type);}, but potentially
+     * faster since some calculations can be done once instead of every time.
+     *
+     * @param <T>   the instance type
+     * @param type  the type to instantiate
+     * @return      creator for such instances
+     */
+    <T> Supplier<T> creator(Class<T> type);
 }
