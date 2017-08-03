@@ -26,7 +26,7 @@ import static org.junit.jupiter.api.Assertions.*;
  * @since  1.0.0
  */
 @DisplayName("Injector")
-class InjectorTest {
+public class InjectorTest {
 
     private interface CompA {}
     private interface CompB {}
@@ -53,7 +53,7 @@ class InjectorTest {
 
     @Test
     @DisplayName(".has(Class)")
-    void has() {
+    public void has() {
         final Injector inj = Injector.builder()
             .withType(CompAImpl.class, "a")
             .withType(CompBImpl.class)
@@ -69,7 +69,7 @@ class InjectorTest {
 
     @Test
     @DisplayName(".getOrThrow(Class)")
-    void getOrThrow() {
+    public void getOrThrow() {
         final Injector inj = Injector.builder()
             .withType(CompAImpl.class, "a")
             .withType(CompBImpl.class)
@@ -92,7 +92,7 @@ class InjectorTest {
 
     @Test
     @DisplayName(".get(Class)")
-    void get() {
+    public void get() {
         final Injector inj = Injector.builder()
             .withType(CompAImpl.class, "a")
             .withType(CompBImpl.class)
@@ -108,7 +108,7 @@ class InjectorTest {
 
     @Test
     @DisplayName(".has(String)")
-    void hasQualifier() {
+    public void hasQualifier() {
         final Injector inj = Injector.builder()
             .withType(CompAImpl.class, "a")
             .withType(CompAImpl2.class, "a2")
@@ -123,7 +123,7 @@ class InjectorTest {
 
     @Test
     @DisplayName(".getOrThrow(String)")
-    void getOrThrowQualifier() {
+    public void getOrThrowQualifier() {
         final Injector inj = Injector.builder()
             .withType(CompAImpl.class, "a")
             .withType(CompAImpl2.class, "a2")
@@ -165,7 +165,7 @@ class InjectorTest {
 
     @Test
     @DisplayName(".get(String)")
-    void getQualifier() {
+    public void getQualifier() {
         final Injector inj = Injector.builder()
             .withType(CompAImpl.class, "a")
             .withType(CompBImpl.class, "b")

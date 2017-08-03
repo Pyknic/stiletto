@@ -57,6 +57,8 @@ public interface InjectorBuilder {
     default <T> InjectorBuilder withType(Class<T> clazz) {
         return withType(clazz, clazz.getName());
     }
+    
+    <T> InjectorBuilder fromProviders();
 
     /**
      * Builds the dependency injector, rendering it immutable. This builder

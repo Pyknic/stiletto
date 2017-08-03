@@ -20,6 +20,7 @@ import com.github.pyknic.stiletto.Inject;
 import com.github.pyknic.stiletto.Injector;
 import com.github.pyknic.stiletto.InjectorBuilder;
 import com.github.pyknic.stiletto.InjectorException;
+import com.github.pyknic.stiletto.Provider;
 import com.github.pyknic.stiletto.internal.graph.Node;
 import com.github.pyknic.stiletto.internal.graph.NodeImpl;
 import com.github.pyknic.stiletto.internal.util.StringUtil;
@@ -32,6 +33,8 @@ import java.util.stream.Stream;
 
 import static com.github.pyknic.stiletto.internal.util.ReflectionUtil.traverseAncestors;
 import static com.github.pyknic.stiletto.internal.util.ReflectionUtil.traverseFields;
+import io.github.lukehutch.fastclasspathscanner.FastClasspathScanner;
+import io.github.lukehutch.fastclasspathscanner.scanner.ScanResult;
 import static java.util.Collections.unmodifiableSet;
 import static java.util.Optional.ofNullable;
 import static java.util.stream.Collectors.joining;
@@ -98,6 +101,19 @@ public final class InjectorBuilderImpl implements InjectorBuilder {
         return this;
     }
 
+    @Override
+    public <T> InjectorBuilder fromProviders() {
+        InjectorBuilder b = this;
+        new FastClasspathScanner().matchClassesWithAnnotation(Provider.class, c -> {
+            Provider p = c.getAnnotation(Provider.class);
+            if(p.value().isEmpty())
+                b.withType(c);
+            else
+                b.withType(c, p.value());
+        });
+        return this;
+    }
+    
     @Override
     public Injector build() {
         final Map<String, Object> byQualifier = new HashMap<>();
