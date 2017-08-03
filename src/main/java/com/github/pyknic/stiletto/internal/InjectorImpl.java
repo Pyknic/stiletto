@@ -35,6 +35,8 @@ import static java.util.Objects.requireNonNull;
 import static java.util.Optional.ofNullable;
 
 /**
+ * Default implementation of the {@link Injector}-interface.
+ *
  * @author Emil Forslund
  * @since  1.0.0
  */

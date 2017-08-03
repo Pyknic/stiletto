@@ -31,6 +31,8 @@ import static java.util.Collections.unmodifiableMap;
 import static java.util.stream.Collectors.joining;
 
 /**
+ * Default implementation of the {@link InjectorBuilder}-interface.
+ *
  * @author Emil Forslund
  * @since  1.0.0
  */
