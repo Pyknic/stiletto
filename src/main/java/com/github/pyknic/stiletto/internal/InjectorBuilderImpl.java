@@ -16,26 +16,19 @@
  */
 package com.github.pyknic.stiletto.internal;
 
-import com.github.pyknic.stiletto.Inject;
 import com.github.pyknic.stiletto.Injector;
 import com.github.pyknic.stiletto.InjectorBuilder;
 import com.github.pyknic.stiletto.InjectorException;
 import com.github.pyknic.stiletto.internal.graph.Node;
-import com.github.pyknic.stiletto.internal.graph.NodeImpl;
-import com.github.pyknic.stiletto.internal.util.StringUtil;
 import com.speedment.stream.MapStream;
 
-import java.lang.reflect.Constructor;
 import java.util.*;
 import java.util.function.Predicate;
-import java.util.stream.Stream;
 
+import static com.github.pyknic.stiletto.internal.InjectorBuilderUtil.findNodes;
 import static com.github.pyknic.stiletto.internal.util.ReflectionUtil.traverseAncestors;
-import static com.github.pyknic.stiletto.internal.util.ReflectionUtil.traverseFields;
-import static java.util.Collections.unmodifiableSet;
-import static java.util.Optional.ofNullable;
+import static java.util.Collections.unmodifiableMap;
 import static java.util.stream.Collectors.joining;
-import static java.util.stream.Collectors.toSet;
 
 /**
  * @author Emil Forslund
@@ -47,9 +40,6 @@ public final class InjectorBuilderImpl implements InjectorBuilder {
         return new InjectorBuilderImpl();
     }
 
-    private static final Predicate<Constructor<?>> INJECTABLE =
-        c -> c.getAnnotation(Inject.class) != null;
-
     private final Map<String, Set<Node<?>>> injectables;
 
     private InjectorBuilderImpl() {
@@ -58,44 +48,7 @@ public final class InjectorBuilderImpl implements InjectorBuilder {
 
     @Override
     public <T> InjectorBuilder withType(Class<T> clazz, String qualifier) {
-
-        // Determine if there are any members that need to be injected.
-        final Set<String> dependencies = unmodifiableSet(traverseFields(clazz)
-            .filter(f -> f.getAnnotation(Inject.class) != null)
-            .map(f -> ofNullable(f.getAnnotation(Inject.class))
-                .map(Inject::value).filter(StringUtil::notEmpty)
-                .orElseGet(() -> f.getType().getName())
-            ).collect(toSet())
-        );
-
-        // If the specified type has at least one annotated constructor, we
-        // should only look at them. Otherwise, consider all constructors
-        // candidates for injection.
-        Stream<Constructor<?>> constructors = Stream.of(clazz.getDeclaredConstructors());
-        if (Stream.of(clazz.getDeclaredConstructors()).anyMatch(INJECTABLE)) {
-            constructors = constructors.filter(INJECTABLE);
-        }
-
-        // Compute the necessary dependencies for every constructor and add
-        // them to the map.
-        final Set<Node<?>> byQualifier = new LinkedHashSet<>();
-        constructors.forEach(constr -> {
-            final Set<String> deps = new HashSet<>(dependencies);
-
-            Stream.of(constr.getParameters())
-                .map(p -> ofNullable(p.getAnnotation(Inject.class))
-                    .map(Inject::value).filter(StringUtil::notEmpty)
-                    .orElseGet(() -> p.getType().getName())
-                ).forEach(deps::add);
-
-            byQualifier.add(new NodeImpl<>(
-                qualifier,
-                unmodifiableSet(deps),
-                constr
-            ));
-        });
-
-        injectables.put(qualifier, unmodifiableSet(byQualifier));
+        injectables.put(qualifier, findNodes(clazz, qualifier));
         return this;
     }
 
@@ -107,6 +60,9 @@ public final class InjectorBuilderImpl implements InjectorBuilder {
         final Predicate<Node<?>> canBeInstantiated =
             i -> i.getDependencies().stream()
                 .allMatch(byQualifier.keySet()::contains);
+
+        final Map<String, Set<Node<?>>> nodes =
+            unmodifiableMap(new LinkedHashMap<>(injectables));
 
         while (!injectables.isEmpty()) {
             final Set<String> resolved = new HashSet<>();
@@ -148,6 +104,6 @@ public final class InjectorBuilderImpl implements InjectorBuilder {
             }
         }
 
-        return new InjectorImpl(byQualifier, byType);
+        return new InjectorImpl(byQualifier, byType, nodes);
     }
 }
