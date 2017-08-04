@@ -30,7 +30,6 @@ import static com.github.pyknic.stiletto.internal.InjectorBuilderUtil.findNodes;
 import static com.github.pyknic.stiletto.internal.util.ReflectionUtil.traverseAncestors;
 import static com.github.pyknic.stiletto.internal.util.ReflectionUtil.traverseFields;
 import io.github.lukehutch.fastclasspathscanner.FastClasspathScanner;
-import io.github.lukehutch.fastclasspathscanner.scanner.ScanResult;
 import static java.util.Collections.unmodifiableSet;
 import static java.util.Optional.ofNullable;
 import static java.util.Collections.unmodifiableMap;
@@ -69,7 +68,7 @@ public final class InjectorBuilderImpl implements InjectorBuilder {
                 b.withType(c);
             else
                 b.withType(c, p.value());
-        });
+        }).scan();
         return this;
     }
     
