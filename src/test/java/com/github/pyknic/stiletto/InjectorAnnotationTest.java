@@ -38,7 +38,7 @@ public class InjectorAnnotationTest {
     @DisplayName(".has(Class)")
     public void has() {
         final Injector inj = Injector.builder()
-            .fromProviders()
+            .fromProviders("com.github.pyknic.stiletto.testtype")
             .build();
 
         assertTrue(inj.has(CompA.class), "CompA interface");
@@ -53,7 +53,7 @@ public class InjectorAnnotationTest {
     @DisplayName(".getOrThrow(Class)")
     public void getOrThrow() {
         final Injector inj = Injector.builder()
-            .fromProviders()
+            .fromProviders(CompA.class.getPackage().getName())
             .build();
 
         assertNotNull(inj.getOrThrow(CompA.class), "CompA interface");
@@ -75,7 +75,7 @@ public class InjectorAnnotationTest {
     @DisplayName(".get(Class)")
     public void get() {
         final Injector inj = Injector.builder()
-            .fromProviders()
+            .fromProviders(CompA.class.getPackage().getName())
             .build();
 
         assertTrue(inj.get(CompA.class).isPresent(), "CompA interface");
@@ -90,7 +90,7 @@ public class InjectorAnnotationTest {
     @DisplayName(".has(String)")
     public void hasQualifier() {
         final Injector inj = Injector.builder()
-            .fromProviders()
+            .fromProviders(CompA.class.getPackage().getName())
             .build();
 
         assertTrue(inj.has("a"), "'a' qualifier");
@@ -103,7 +103,7 @@ public class InjectorAnnotationTest {
     @DisplayName(".getOrThrow(String)")
     public void getOrThrowQualifier() {
         final Injector inj = Injector.builder()
-            .fromProviders()
+            .fromProviders(CompA.class.getPackage().getName())
             .build();
 
         assertNotNull(inj.getOrThrow(CompA.class), "CompA interface");
@@ -143,11 +143,43 @@ public class InjectorAnnotationTest {
     @DisplayName(".get(String)")
     public void getQualifier() {
         final Injector inj = Injector.builder()
+            .fromProviders(CompA.class.getPackage().getName())
+            .build();
+
+        assertTrue(inj.get("a").isPresent(), "'a' qualifier");
+        assertTrue(inj.get("b").isPresent(), "'b' qualifier");
+        assertFalse(inj.get("c").isPresent(), "'c' qualifier");
+    }
+    
+    @Test
+    @DisplayName(".fromProviders()")
+    public void fromProviderSpecs(){
+        
+        // Find the types when we scan the entire class path
+        final Injector inj = Injector.builder()
             .fromProviders()
             .build();
 
         assertTrue(inj.get("a").isPresent(), "'a' qualifier");
         assertTrue(inj.get("b").isPresent(), "'b' qualifier");
         assertFalse(inj.get("c").isPresent(), "'c' qualifier");
+        
+        // Also find the types when we point to the correct pacakge root 
+        final Injector inj2 = Injector.builder()
+            .fromProviders(InjectorAnnotationTest.class.getPackage().getName() + ".testtype")
+            .build();
+
+        assertTrue(inj2.get("a").isPresent(), "'a' qualifier");
+        assertTrue(inj2.get("b").isPresent(), "'b' qualifier");
+        assertFalse(inj2.get("c").isPresent(), "'c' qualifier");
+        
+        // Don't find the types when we point to the wrong package root
+        final Injector inj3 = Injector.builder()
+            .fromProviders(InjectorAnnotationTest.class.getPackage().getName() + ".testtype2")
+            .build();
+
+        assertFalse(inj3.get("a").isPresent(), "'a' qualifier");
+        assertFalse(inj3.get("b").isPresent(), "'b' qualifier");
+        assertFalse(inj3.get("c").isPresent(), "'c' qualifier");
     }
 }

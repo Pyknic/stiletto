@@ -15,6 +15,8 @@
  */
 package com.github.pyknic.stiletto.testtype;
 
+import com.github.pyknic.stiletto.testtype.CompB;
+import com.github.pyknic.stiletto.testtype.CompA;
 import com.github.pyknic.stiletto.Inject;
 import com.github.pyknic.stiletto.Provider;
 

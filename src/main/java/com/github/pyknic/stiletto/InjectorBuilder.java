@@ -58,7 +58,22 @@ public interface InjectorBuilder {
         return withType(clazz, clazz.getName());
     }
     
-    <T> InjectorBuilder fromProviders();
+    /**
+     * Adds all types that are annotated with the {@link Provider} annotation to
+     * the injector being built, so that them and all of their ancestors can be
+     * dependency injected. Each type found by recursively scanning the class
+     * path from the parameter {@code scanSpec}, 
+     * <a href="https://github.com/lukehutch/fast-classpath-scanner/wiki/2.-Constructor#scan-spec">
+     * using these semantics</a>, are added to the injector via the 
+     * {@link #withType(Class, String)} method.
+     * <p>
+     * For simple usage, you may leave the {@code scanSpec} parameter empty
+     *
+     * @param <T>       the injectable (implementation) type
+     * @param scanSpec  the scan specifications
+     * @return          this builder
+     */
+    <T> InjectorBuilder fromProviders(String... scanSpec);
 
     /**
      * Builds the dependency injector, rendering it immutable. This builder

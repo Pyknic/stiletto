@@ -60,9 +60,9 @@ public final class InjectorBuilderImpl implements InjectorBuilder {
     }
 
     @Override
-    public <T> InjectorBuilder fromProviders() {
+    public <T> InjectorBuilder fromProviders(String... scanSpec) {
         InjectorBuilder b = this;
-        new FastClasspathScanner().matchClassesWithAnnotation(Provider.class, c -> {
+        new FastClasspathScanner(scanSpec).matchClassesWithAnnotation(Provider.class, c -> {
             Provider p = c.getAnnotation(Provider.class);
             if(p.value().isEmpty())
                 b.withType(c);
