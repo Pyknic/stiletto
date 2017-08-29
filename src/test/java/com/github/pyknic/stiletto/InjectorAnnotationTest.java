@@ -36,7 +36,7 @@ public class InjectorAnnotationTest {
 
     @Test
     @DisplayName(".has(Class)")
-    public void has() {
+    void has() {
         final Injector inj = Injector.builder()
             .fromProviders("com.github.pyknic.stiletto.testtype")
             .build();
@@ -51,7 +51,7 @@ public class InjectorAnnotationTest {
 
     @Test
     @DisplayName(".getOrThrow(Class)")
-    public void getOrThrow() {
+    void getOrThrow() {
         final Injector inj = Injector.builder()
             .fromProviders(CompA.class.getPackage().getName())
             .build();
@@ -73,7 +73,7 @@ public class InjectorAnnotationTest {
 
     @Test
     @DisplayName(".get(Class)")
-    public void get() {
+    void get() {
         final Injector inj = Injector.builder()
             .fromProviders(CompA.class.getPackage().getName())
             .build();
@@ -88,7 +88,7 @@ public class InjectorAnnotationTest {
 
     @Test
     @DisplayName(".has(String)")
-    public void hasQualifier() {
+    void hasQualifier() {
         final Injector inj = Injector.builder()
             .fromProviders(CompA.class.getPackage().getName())
             .build();
@@ -101,7 +101,7 @@ public class InjectorAnnotationTest {
 
     @Test
     @DisplayName(".getOrThrow(String)")
-    public void getOrThrowQualifier() {
+    void getOrThrowQualifier() {
         final Injector inj = Injector.builder()
             .fromProviders(CompA.class.getPackage().getName())
             .build();
@@ -141,7 +141,7 @@ public class InjectorAnnotationTest {
 
     @Test
     @DisplayName(".get(String)")
-    public void getQualifier() {
+    void getQualifier() {
         final Injector inj = Injector.builder()
             .fromProviders(CompA.class.getPackage().getName())
             .build();
@@ -153,7 +153,7 @@ public class InjectorAnnotationTest {
     
     @Test
     @DisplayName(".fromProviders()")
-    public void fromProviderSpecs(){
+    void fromProviderSpecs(){
         
         // Find the types when we scan the entire class path
         final Injector inj = Injector.builder()

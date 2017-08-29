@@ -53,7 +53,7 @@ public class InjectorTest {
 
     @Test
     @DisplayName(".has(Class)")
-    public void has() {
+    void has() {
         final Injector inj = Injector.builder()
             .withType(CompAImpl.class, "a")
             .withType(CompBImpl.class)
@@ -69,7 +69,7 @@ public class InjectorTest {
 
     @Test
     @DisplayName(".getOrThrow(Class)")
-    public void getOrThrow() {
+    void getOrThrow() {
         final Injector inj = Injector.builder()
             .withType(CompAImpl.class, "a")
             .withType(CompBImpl.class)
@@ -92,7 +92,7 @@ public class InjectorTest {
 
     @Test
     @DisplayName(".get(Class)")
-    public void get() {
+    void get() {
         final Injector inj = Injector.builder()
             .withType(CompAImpl.class, "a")
             .withType(CompBImpl.class)
@@ -108,7 +108,7 @@ public class InjectorTest {
 
     @Test
     @DisplayName(".has(String)")
-    public void hasQualifier() {
+    void hasQualifier() {
         final Injector inj = Injector.builder()
             .withType(CompAImpl.class, "a")
             .withType(CompAImpl2.class, "a2")
@@ -123,7 +123,7 @@ public class InjectorTest {
 
     @Test
     @DisplayName(".getOrThrow(String)")
-    public void getOrThrowQualifier() {
+    void getOrThrowQualifier() {
         final Injector inj = Injector.builder()
             .withType(CompAImpl.class, "a")
             .withType(CompAImpl2.class, "a2")
@@ -165,7 +165,7 @@ public class InjectorTest {
 
     @Test
     @DisplayName(".get(String)")
-    public void getQualifier() {
+    void getQualifier() {
         final Injector inj = Injector.builder()
             .withType(CompAImpl.class, "a")
             .withType(CompBImpl.class, "b")
