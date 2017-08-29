@@ -23,8 +23,8 @@ import java.lang.annotation.Target;
 /** Base annotation for methods that provides an implementation for a certain
  * class.
  *
- * @author Simon Jonasson2
- * @since 1.0.2
+ * @author Simon Jonasson
+ * @since 1.0.3
  */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)

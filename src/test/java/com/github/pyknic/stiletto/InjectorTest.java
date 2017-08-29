@@ -26,7 +26,7 @@ import static org.junit.jupiter.api.Assertions.*;
  * @since  1.0.0
  */
 @DisplayName("Injector")
-public class InjectorTest {
+class InjectorTest {
 
     private interface CompA {}
     private interface CompB {}

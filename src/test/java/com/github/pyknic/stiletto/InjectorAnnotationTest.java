@@ -32,7 +32,7 @@ import static org.junit.jupiter.api.Assertions.*;
  * @since  1.0.3
  */
 @DisplayName("InjectorAnnotation")
-public class InjectorAnnotationTest {
+class InjectorAnnotationTest {
 
     @Test
     @DisplayName(".has(Class)")
