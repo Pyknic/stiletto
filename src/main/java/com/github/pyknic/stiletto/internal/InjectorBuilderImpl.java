@@ -22,16 +22,13 @@ import com.github.pyknic.stiletto.InjectorException;
 import com.github.pyknic.stiletto.Provider;
 import com.github.pyknic.stiletto.internal.graph.Node;
 import com.speedment.stream.MapStream;
+import io.github.lukehutch.fastclasspathscanner.FastClasspathScanner;
 
 import java.util.*;
 import java.util.function.Predicate;
 
 import static com.github.pyknic.stiletto.internal.InjectorBuilderUtil.findNodes;
 import static com.github.pyknic.stiletto.internal.util.ReflectionUtil.traverseAncestors;
-import static com.github.pyknic.stiletto.internal.util.ReflectionUtil.traverseFields;
-import io.github.lukehutch.fastclasspathscanner.FastClasspathScanner;
-import static java.util.Collections.unmodifiableSet;
-import static java.util.Optional.ofNullable;
 import static java.util.Collections.unmodifiableMap;
 import static java.util.stream.Collectors.joining;
 
@@ -60,15 +57,17 @@ public final class InjectorBuilderImpl implements InjectorBuilder {
     }
 
     @Override
-    public <T> InjectorBuilder fromProviders(String... scanSpec) {
-        InjectorBuilder b = this;
-        new FastClasspathScanner(scanSpec).matchClassesWithAnnotation(Provider.class, c -> {
-            Provider p = c.getAnnotation(Provider.class);
-            if(p.value().isEmpty())
-                b.withType(c);
-            else
-                b.withType(c, p.value());
-        }).scan();
+    public InjectorBuilder fromProviders(String... scanSpec) {
+        new FastClasspathScanner(scanSpec)
+            .matchClassesWithAnnotation(Provider.class, c -> {
+                final Provider p = c.getAnnotation(Provider.class);
+                if (p.value().isEmpty()) {
+                    InjectorBuilderImpl.this.withType(c);
+                } else {
+                    InjectorBuilderImpl.this.withType(c, p.value());
+                }
+            }).scan();
+
         return this;
     }
     

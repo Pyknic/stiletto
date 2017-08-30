@@ -69,11 +69,10 @@ public interface InjectorBuilder {
      * <p>
      * For simple usage, you may leave the {@code scanSpec} parameter empty
      *
-     * @param <T>       the injectable (implementation) type
      * @param scanSpec  the scan specifications
      * @return          this builder
      */
-    <T> InjectorBuilder fromProviders(String... scanSpec);
+    InjectorBuilder fromProviders(String... scanSpec);
 
     /**
      * Builds the dependency injector, rendering it immutable. This builder
