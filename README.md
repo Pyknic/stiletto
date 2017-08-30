@@ -1,4 +1,9 @@
 # stiletto
+[![Build Status](https://travis-ci.org/Pyknic/stiletto.svg?branch=master)](https://travis-ci.org/Pyknic/stiletto)
+[![Javadocs](http://javadoc.io/badge/com.github.pyknic/stiletto.svg)](http://javadoc.io/doc/com.github.pyknic/stiletto)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.github.pyknic/stiletto/badge.svg?style=flat)](https://maven-badges.herokuapp.com/maven-central/com.github.pyknic/stiletto)
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+
 Dependency Injection Library for Java that uses constructor invocation to support immutable instances.
 
 ## Features
