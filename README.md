@@ -12,7 +12,7 @@ Dependency Injection Library for Java that uses constructor invocation to suppor
 * Non-default constructors
 * Interface/Implementation separation
 * Named Instances using Qualifiers
-* No classpath scanning
+* Optional classpath scanning
 
 ## Installation
 
