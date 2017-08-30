@@ -14,31 +14,17 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.github.pyknic.stiletto.testtype;
+package com.github.pyknic.stiletto.testprovider;
 
-import com.github.pyknic.stiletto.testtype.CompB;
-import com.github.pyknic.stiletto.testtype.CompA;
-import com.github.pyknic.stiletto.Inject;
 import com.github.pyknic.stiletto.Provider;
 
 /**
- * @author Simon Jonasson
- * @since 1.0.3
+ * @author Emil Forslund
+ * @since  1.0.4
  */
-@Provider("b")
-public class CompBImpl implements CompA, CompB{
-    public final CompA wrapped;
-    public final CompA wrapped2;
+@Provider
+public final class Provided implements Providable {
 
-    // Should not be invoked.
-    CompBImpl() {
-        wrapped = null;
-        wrapped2 = null;
-    }
 
-    @Inject
-    CompBImpl(@Inject("a") CompA wrapped, CompA second) {
-        this.wrapped  = wrapped;
-        this.wrapped2 = second;
-    }
+
 }

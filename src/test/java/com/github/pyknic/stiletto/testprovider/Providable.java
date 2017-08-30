@@ -14,13 +14,12 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.github.pyknic.stiletto.testtype;
+package com.github.pyknic.stiletto.testprovider;
 
-/**Interface for testing
- *
- * @author Simon Jonasson
- * @since 1.0.3
+/**
+ * @author Emil Forslund
+ * @since  1.0.4
  */
-public interface CompC {
-    
+public interface Providable {
+
 }
