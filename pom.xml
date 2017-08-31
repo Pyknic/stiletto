@@ -44,6 +44,12 @@
         </developer>
     </developers>
 
+    <contributors>
+        <contributor>
+            <name>Simon Johansson</name>
+        </contributor>
+    </contributors>
+
     <dependencies>
         <!-- Runtime Dependencies -->
         <dependency>
