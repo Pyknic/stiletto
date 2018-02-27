@@ -25,7 +25,7 @@ import java.lang.annotation.Target;
  * class.
  *
  * @author Simon Jonasson
- * @since 1.0.3
+ * @since  1.0.4
  */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)

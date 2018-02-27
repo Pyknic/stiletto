@@ -71,6 +71,8 @@ public interface InjectorBuilder {
      *
      * @param scanSpec  the scan specifications
      * @return          this builder
+     *
+     * @since 1.0.4
      */
     InjectorBuilder fromProviders(String... scanSpec);
 
